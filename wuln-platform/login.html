@@ -1,0 +1,56 @@
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>wuln技术平台-登录</title>
+    <link href="img/favicon.ico" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="resource/platform/css/login/normalize.css"/>    
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="resource/platform/css/login/component.css"/>
+    <!--form样式-->
+    <link rel="stylesheet" type="text/css" href="resource/platform/css/login/formstyle.css"/>  
+
+    <script src="resource/common/js/jquery.js"></script>
+    <!-- <script src="resource/common/js/jquery.cookie.js"></script> -->
+    <!-- <script src="resource/platform/js/login/loginJS.js"></script> -->
+</head>
+<body>
+<div class="container demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>           
+            <div class="page-container main-title" style="top:35%;font-size: 18px">
+                <h1>登录我的技术平台</h1>
+                <form method="post" action="" id="login-form" onsubmit="submitbutton = document.getElementById('login-submit'); submitbutton.value='请稍候...'; submitbutton.disabled=true; return true;">
+                    <div>
+                        <input type="text" id="username" name="username" class="username" placeholder="用户名"
+                               autocomplete="off" size="32" tabindex="1" accesskey="u"/>
+                    </div>
+                    <div>
+                        <input type="password" id="password" name="password" class="password" placeholder="密码" size="32"
+                               tabindex="2" accesskey="p" autocomplete="off"/>
+                    </div>
+                    <div align="left">
+                        <span style='display:block;float:left;padding:5px;width: 270px;font-size: 14px'><input
+                                id="rememberMe" type='checkbox' name='ckbJYFW'
+                                style='vertical-align:-2px;width: auto;height: auto'/>记住我</span>
+                    </div>
+                    <button id="submit" type="submit" style="background: RGB(19,42,60)">登 录</button>
+                </form>
+            </div>
+            <div class="alert" style="display:none">
+                <h2>消息</h2>
+                <div class="alert_con">
+                    <p id="ts"></p>
+                    <p style="line-height:70px"><a class="btn">确定</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="resource/platform/js/login/TweenLite.min.js"></script>
+<script src="resource/platform/js/login/EasePack.min.js"></script>
+<script src="resource/platform/js/login/rAF.js"></script>
+<script src="resource/platform/js/login/demo-1.js"></script>
+</body>
+</html>
