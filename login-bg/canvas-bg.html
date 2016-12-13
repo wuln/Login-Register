@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>canvas-bg</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				overflow: hidden;
+			}
+			#canvas{
+				border: 1px;
+				background: #F7FAFC;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<script type="text/javascript">		
+			var w = window.innerWidth;
+			var h = window.innerHeight;		
+			var points = 30;
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");		
+			canvas.width = w;
+			canvas.height = h;
+			//随机数函数
+			function fnRandom(min,max){
+				return Math.floor((max-min+1)*Math.random()+min);
+			}
+			function Round(){
+				this.r = fnRandom(2,8);				
+				//随机位置
+				var x = fnRandom(0,canvas.width - this.r);
+				this.x = x<this.r?this.r:x;
+				var y = fnRandom(0,canvas.height-this.r);
+				this.y = y<this.r?this.r:y;
+				//随机速度
+				var speed = fnRandom(2,4)/10;
+				this.speedX = fnRandom(0,4)>2?speed:-speed;
+				this.speedY = fnRandom(0,4)>2?speed:-speed;
+				//圆点颜色					
+				this.color = 'rgba(156,217,249,0.4)';
+			}
+			Round.prototype.draw = function(){
+				// 绘制圆点				
+				ctx.fillStyle = this.color;
+				ctx.beginPath();
+				ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+				ctx.closePath();
+				ctx.fill();
+			}
+			Round.prototype.move = function(){
+				this.x += this.speedX;
+				if(this.x > canvas.width - this.r){					
+					this.x = this.r;					
+				} else if (this.x <  this.r){
+					this.x = canvas.width-this.r;
+				}
+				this.y += this.speedY;
+				if(this.y > canvas.height - this.r){					
+					this.y = this.r;
+				} else if (this.y < this.r){
+					this.y = canvas.height - this.r;
+				}
+			}			
+			var allRound = [];
+			function initRound(){				
+				for(var i = 0; i < points; i++){
+					var obj = new Round();
+					obj.draw();
+					obj.move();
+					allRound.push(obj);									
+				}
+			}
+			initRound();
+			var dxdy = []
+			function roundMove(){
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				//遍历所有的圆点对象,让对象自己重绘,移动
+				for (var i = 0 ;i < allRound.length; i++) {
+					var round = allRound[i];
+					round.draw();
+					round.move();
+				
+					dxdy[i]={
+						dx: round.x,
+						dy: round.y
+					};
+					var dx = dxdy[i].dx;
+					var dy =dxdy[i].dy;
+					for (var j=0; j<i; j++) {
+						var sx = dxdy[j].dx;
+						var sy = dxdy[j].dy;
+						l = Math.sqrt((dx-sx)*(dx-sx)+(dy-sy)*(dy-sy));
+						var C = 1/l*7-0.009;
+						var o = C > 0.03 ? 0.03 : C;
+						ctx.strokeStyle = 'rgba(156,217,249,'+ o +')';
+						console.log(l);
+						ctx.beginPath();
+						ctx.lineWidth=3;
+						ctx.moveTo(dxdy[i].dx,dxdy[i].dy);
+						ctx.lineTo(dxdy[j].dx,dxdy[j].dy);
+						ctx.closePath();
+						ctx.stroke();										
+					}
+				}
+				window.requestAnimationFrame(roundMove)
+			}
+			roundMove();
+		</script>
+	</body>	
+</html>
