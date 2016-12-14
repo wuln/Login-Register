@@ -10,4 +10,6 @@
 
 二、login-bg
 
-登录页背景加canvas动画
+1、登录页背景加canvas动画
+
+2、jQuery粒子系统插件Particleground
