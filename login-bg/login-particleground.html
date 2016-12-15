@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>jQuery粒子系统插件Particleground</title>				
+		<meta name="viewport" content="width=device-width, initial-scale=1.0 ">		
+		<link rel="stylesheet" href="css/login.css">
+	</head>
+	<body>
+		<div id="particle">
+			<div class="wrap" id="wrap">			
+				<!--登录-->
+				<div class="login">
+					<div class="form">
+						<input type="text" class="login_username" placeholder="用户名/手机号码" value=""/>
+						<input type="password" class="login_passw" placeholder="密码" value="" />
+						<button class="login_in">登   录</button>
+						<div class="login_bottom">
+							<div class="login_bottom_left">忘记密码</div>
+							<div class="login_bottom_right">立即注册></div>
+						</div>
+					</div>
+				</div>
+				<!--注册-->
+				<div class="register">
+					<div class="form2">
+						<input class="register_phone" type="text" placeholder="手机号码" value="" />
+						<input class="register_passw" type="password" placeholder="请输入密码(6~20位)字母+数字/符号" value="" />
+						<input class="register_yanzheng" type="text" placeholder="请输入验证码" value="" />
+						<input class="register_btn" type="button" value="获取验证码" />
+						<button class="register_in">注   册</button>
+						<div class="register_bottom">
+							<div class="register_bottom_left"><input type="checkbox" checked="true"/>我已阅读并同意<span>服务协议</span></div>
+							<div class="register_bottom_right">已有账号登录></div>
+						</div>
+					</div>
+				</div>
+				<!--找回密码-->
+				<div class="back">
+					<div class="form3">
+						<input class="back_phone" type="text" placeholder="手机号码" value="" />
+						<input class="back_yanzheng" type="text" placeholder="请输入验证码" value="" />
+						<input class="back_btn" type="button" value="获取验证码" />
+						<button>验   证</button>
+					</div>
+				</div>
+				<!--修改-->
+				<div class="modify">
+					<div class="form4">
+						<input class="modify_passw" type="password" placeholder="请输入密码(6~20位)" value="" />
+						<input class="modify_passw1" type="password" placeholder="请确保两次密码输入一致" value="" />
+						<button>修   改</button>
+					</div>
+				</div>
+			</div>
+		</div>		
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+	<script src="js/jquery.particleground.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			//粒子背景特效
+			$('#particle').particleground({
+				dotColor: '#5cbdaa',
+				lineColor: '#5cbdaa'
+			});
+		});
+		// $('#wrap').css({
+		// 	'margin-top': -($('#wrap').height()/2)
+		// });
+		//点击登录 判断手机号
+		$(".login_in").click(function () {		
+
+		})
+		var bol = true;
+		var bool = true;
+		//点击注册  判断手机号和密码
+		$(".register_in").click(function () {
+			var $register_phone = $(".register_phone").val();
+			if(!(/^1[34578]\d{9}$/.test($register_phone))){
+				bol = false;
+			}
+			if (bol==false) {
+				$(".register_phone").removeClass('shake_effect');
+				setTimeout(function() {
+					$(".register_phone").addClass('shake_effect')
+					bol = true;
+				}, 1);
+			}
+			var $register_passw = $(".register_passw").val();
+			if (!(/^(?![\d]+$)(?![a-zA-Z]+$)(?![!#$%^&*]+$)[\da-zA-Z!#$%^&*.]{6,20}$/.test($register_passw))) {
+				bool = false;
+			}
+			if (bool==false) {
+				$(".register_passw").removeClass('shake_effect');
+				setTimeout(function() {
+					$(".register_passw").addClass('shake_effect')
+					bool = true;
+				}, 1);
+			}
+		})
+		//点击获取注册验证码
+		function click_yanzheng () {
+			$(".register_btn").click(function () {
+			$(this).unbind("click");
+			var str = 60;
+			var timer;
+			$(this).val(str);
+			timer = setInterval(function () {
+				str--;
+				$(".register_btn").val(str);
+				if (str==0) {
+					clearInterval(timer);
+					$(".register_btn").val("获取验证码");
+					$(".register_btn").bind("click",click_yanzheng());
+					}
+				},1000)
+			})
+		}
+		click_yanzheng();
+		$(function() {
+			$('.login_bottom_right').click(function() {
+				$('.login').animate({
+					height: 'toggle',
+					opacity: 'toggle'
+				}, 1500);
+				$('.register').animate({
+					height: 'toggle',
+					opacity: 'toggle'
+				}, 1500);
+			});
+			$('.register_bottom_right').click(function() {
+				$('.register').animate({
+					height: 'toggle',
+					opacity: 'toggle'
+				}, 1500);
+				$('.login').animate({
+					height: 'toggle',
+					opacity: 'toggle'
+				}, 1500);
+			});
+			$('.login_bottom_left').click(function() {
+				$('.login').animate({
+					height: 'toggle',
+					opacity: 'toggle'
+				}, 1500);
+				$('.back').animate({
+					height: 'toggle',
+					opacity: 'toggle'}, 1500);
+			});
+		})
+		
+		// 验证码
+		var code ;    
+		function createCode(){       
+		    code = "";      
+		    var codeLength = 4;
+		    var selectChar = new Array(1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','j','k','l','m','n','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z');      
+		    for(var i=0;i<codeLength;i++) {
+		       var charIndex = Math.floor(Math.random()*60);      
+		      code +=selectChar[charIndex];
+		    }      
+		    if(code.length != codeLength){      
+		      createCode();      
+		    }		    
+		}
+		          
+		function validate () {
+		    var inputCode = document.getElementById("J_codetext").value.toUpperCase();
+		    var codeToUp=code.toUpperCase();
+		    if(inputCode.length <=0) {
+		      document.getElementById("J_codetext").setAttribute("placeholder","输入验证码");
+		      createCode();
+		      return false;
+		    }
+		    else if(inputCode != codeToUp ){
+		      document.getElementById("J_codetext").value="";
+		      document.getElementById("J_codetext").setAttribute("placeholder","验证码错误");
+		      createCode();
+		      return false;
+		    }
+		    else {
+		      window.open(document.getElementById("J_down").getAttribute("data-link"));
+		      document.getElementById("J_codetext").value="";
+		      createCode();
+		      return true;
+		    }
+
+		}
+	</script>
+</html>

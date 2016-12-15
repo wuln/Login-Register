@@ -13,3 +13,5 @@
 1、登录页背景加canvas动画
 
 2、jQuery粒子系统插件Particleground
+
+3、获取验证码60秒倒计时
